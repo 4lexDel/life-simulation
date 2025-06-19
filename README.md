@@ -41,3 +41,12 @@ Features:
     * To reproduce
     * Fight
     * Sell some food?
+
+
+NEXT
+- Display a name
+- Add a list of info by name to get their stats
+- Dynamic size
+- Continue other feature
+- Add images
+- Heal when get enough food

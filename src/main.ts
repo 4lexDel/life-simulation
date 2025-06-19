@@ -23,8 +23,9 @@ const sketch = (p: p5) => {
     p.background(220);
 
     world.display(p);
-
-    handleFoodSpawn();
+    
+    world.handleFoods(p);
+    world.handleIndividuals(p);
   };
 
   p.windowResized = () => {
@@ -34,19 +35,6 @@ const sketch = (p: p5) => {
     world.resize(p.width, p.height);
   };
 
-  const handleFoodSpawn = () => {
-    const currentTime = p.millis();
-    if (currentTime - timestamp >= world.foodSpawnInterval) {
-      const x = p.random(p.width);
-      const y = p.random(p.height);
-
-      const food = new Food(x, y, 10);
-      world.addFood(food);
-
-      timestamp = currentTime;
-    }
-  }
-
   const generateIndividuals = () => {
     while (world.individuals.length < world.maxIndividuals) {
       const x = p.random(p.width);
@@ -54,7 +42,7 @@ const sketch = (p: p5) => {
 
       const healthGauge = p.random(50, 100);
       const hungerPoint = p.random(10, 20);
-      const speed = p.random(1, 10);
+      const speed = p.random(0.01, 2);
       const visualRange = p.random(50, 150);
 
       const individual = new Individual(x, y, speed, visualRange, healthGauge, hungerPoint);
@@ -64,16 +52,3 @@ const sketch = (p: p5) => {
 };
 
 new p5(sketch);
-
-// function handleWorldGeneration(world: World, p: p5, timestamp: number) {
-//   const currentTime = p.millis();
-//   if (currentTime - timestamp >= 5000) { // Every 5 seconds
-//     const x = p.random(p.width);
-//     const y = p.random(p.height);
-
-//     const food = new Food(x, y, 10);
-//     world.addFood(food);
-
-//     timestamp = currentTime;
-//   }
-// }
