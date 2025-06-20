@@ -1,14 +1,14 @@
 import p5 from "p5";
-import { Animal, Food, Individual } from "./entities";
+import { Individual } from "./entities";
 import World from "./World";
 
 const sketch = (p: p5) => {
   let world: World;
 
-  let timestamp = 0;
+  // let timestamp = 0;
 
   p.setup = () => {
-    timestamp = p.millis();
+    // timestamp = p.millis();
     p.frameRate(60);
 
     p.createCanvas(p.windowWidth, p.windowHeight);
@@ -41,9 +41,9 @@ const sketch = (p: p5) => {
       const y = p.random(p.height);
 
       const healthGauge = p.random(50, 100);
-      const hungerPoint = p.random(10, 20);
+      const hungerPoint = p.random(60, 90);
       const speed = p.random(0.01, 2);
-      const visualRange = p.random(50, 150);
+      const visualRange = p.random(100, 200);
 
       const individual = new Individual(x, y, speed, visualRange, healthGauge, hungerPoint);
       world.addIndividual(individual);

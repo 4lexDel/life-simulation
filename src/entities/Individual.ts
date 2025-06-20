@@ -22,6 +22,25 @@ export default class Individual extends EntityBase {
         super(x, y, 20, 'blue');
      }
 
+    display(p: any): void {
+        super.display(p);
+        p.noFill();
+        p.stroke(0, 100);
+        p.strokeWeight(1);
+        p.drawingContext.setLineDash([5, 5]);
+        p.circle(this.x, this.y, this.visualRange * 2);
+        p.drawingContext.setLineDash([]);   
+        p.noStroke();
+        p.fill(0);
+        p.textAlign(p.CENTER, p.CENTER);
+        p.textSize(12);
+        p.text(`H: ${Math.floor(this.hungerGauge)}`, this.x, this.y - this.radius/2 - 10);
+        p.text(`L: ${Math.floor(this.healthGauge)}`, this.x, this.y - this.radius/2 - 25);
+        // p.text(`S: ${Math.floor(this.strengthLevel)}`, this.x, this.y - this.radius/2 - 25);
+        // p.text(`P: ${Math.floor(this.passivityLevel)}`, this.x, this.y + 25);
+        // p.text(`B: ${this.behaviourState}`, this.x, this.y + 40);
+    }
+
     move(): void {
         // move to the objective if defined at the speed defined
         if (this.objectiveX !== undefined && this.objectiveY !== undefined) {
@@ -36,8 +55,7 @@ export default class Individual extends EntityBase {
 
                 // If a food objective was defined, set it to eaten
                 if (this.foodObjective) {
-                    this.foodObjective.isEaten = true;
-                    this.hungerGauge += this.foodObjective.hungerPoint;
+                    this.eat(this.foodObjective);
                     this.foodObjective = undefined;
                 }
             }
@@ -72,11 +90,40 @@ export default class Individual extends EntityBase {
         return this.healthGauge > 0;
     }
 
+    eat(food: Food): void {
+        if (food.isEaten) { 
+            return;
+        }
+        this.hungerGauge += food.hungerPoint;
+        food.isEaten = true;
+
+        if (this.hungerGauge > 100) {
+            const healthGain = Math.floor((this.hungerGauge - 100) / 5);
+            this.hungerGauge = 100;
+            this.increaseHealth(healthGain);
+        }
+    }
+
+    increaseHealth(amount: number): void {
+        this.healthGauge += amount;
+        if (this.healthGauge > 100) {
+            this.healthGauge = 100;
+        }
+    }
+
+    decreaseHealth(amount: number): void {
+        this.healthGauge -= amount;
+        if (this.healthGauge < 0) {
+            this.healthGauge = 0;
+        }
+    }
+
     decreaseHunger(): void {
         if (this.hungerGauge > 0) {
             this.hungerGauge -= 1;
         } else {
-            this.healthGauge -= 1;
+            this.hungerGauge = 0;
+            this.decreaseHealth(1);
         }
     }
 }

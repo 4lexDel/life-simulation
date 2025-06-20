@@ -24,7 +24,7 @@ export default class World {
         height: number,
         maxAnimals: number = 5,
         maxIndividuals: number = 10,
-        maxFoods: number = 15
+        maxFoods: number = 25
     ) {
         this.width = width;
         this.height = height;

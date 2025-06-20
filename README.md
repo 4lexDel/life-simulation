@@ -50,3 +50,16 @@ NEXT
 - Continue other feature
 - Add images
 - Heal when get enough food
+
+
+
+Fight condition:  
+- Calcul based on:  
+    * The hunger gauge
+    * The passivity level
+    * Randomness
+    * Smart
+- Win
+    * Health
+    * Strength
+    * Randomness
